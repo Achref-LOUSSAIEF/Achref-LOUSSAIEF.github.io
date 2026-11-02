@@ -5,32 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Achref Loussaief: projects</title>
 <meta name="description" content="Projects by Achref Loussaief, with notes on what each one does.">
+<meta name="theme-color" content="#22211d">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;700&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    color-scheme: light dark;
-    --paper: #E8EEF1;
-    --ink: #12263A;
-    --muted: #4A5D70;
-    --line: #C3D0DA;
-    --bar: #1F5FBF;
-    --link: #1A4FA8;
-    --latest: #D9480F;
-    --display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
-    --reading: "Newsreader", Georgia, "Times New Roman", serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --paper: #12263A;
-      --ink: #E8EEF1;
-      --muted: #A9BBCB;
-      --line: #2F4660;
-      --bar: #7FB0FF;
-      --link: #A5C8FF;
-      --latest: #FF9A5C;
-    }
+    color-scheme: dark;
+    --paper: #22211d;
+    --ink: #e6e3d6;
+    --muted: #aeab9a;
+    --orange: #ff9a52;
+    --orange-hover: #ffbd8c;
   }
 
   * { box-sizing: border-box; }
@@ -39,125 +25,43 @@
     margin: 0;
     background: var(--paper);
     color: var(--ink);
-    font-family: var(--display);
-    font-size: 1rem;
-    line-height: 1.5;
+    font-family: "IBM Plex Mono", Menlo, Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.6;
   }
-  a { color: var(--link); text-underline-offset: .18em; }
-  a:hover { text-decoration-thickness: 2px; }
-  :focus-visible { outline: 3px solid var(--latest); outline-offset: 3px; border-radius: 2px; }
+  a { color: var(--orange); }
+  a:hover { color: var(--orange-hover); }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
-  .page { max-width: 75rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem); }
+  .page { max-width: 50rem; margin: 0 auto; padding: 28px 16px 40px; }
 
-  /* Opening */
-  .intro { padding: clamp(3rem, 9vw, 7rem) 0 clamp(2.5rem, 6vw, 4.5rem); }
-  h1 {
-    margin: 0 0 clamp(1.5rem, 4vw, 2.5rem);
-    font-size: clamp(3.5rem, 13.5vw, 11.5rem);
-    font-weight: 700;
-    line-height: .88;
-    letter-spacing: -.025em;
-  }
-  h1 span { display: block; }
-  .lede {
-    max-width: 34em;
-    margin: 0 0 .75rem;
-    font-family: var(--reading);
-    font-size: clamp(1.3rem, 2.4vw, 1.7rem);
-    line-height: 1.35;
-  }
-  .summary { margin: 0; color: var(--muted); }
-
-  /* Shared timeline */
-  .axis {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-    height: 2.25rem;
-    background: var(--paper);
-    border-bottom: 1px solid var(--ink);
-    color: var(--muted);
-    font-size: .875rem;
-  }
-  .axis span { position: absolute; bottom: .35rem; font-variant-numeric: tabular-nums; }
-  .axis-title { margin: 0 0 .5rem; font-size: .9375rem; color: var(--muted); }
-
-  /* A project */
-  .project { padding-top: clamp(1.75rem, 4vw, 2.75rem); }
-  .project-body {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: 1rem clamp(1.5rem, 5vw, 4rem);
-    align-items: start;
-    margin-bottom: clamp(1.25rem, 3vw, 1.75rem);
-  }
-  h2 {
-    margin: 0 0 .5rem;
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
-    font-weight: 700;
-    line-height: 1.08;
-    letter-spacing: -.02em;
-    overflow-wrap: anywhere;
-  }
-  h2 a { color: inherit; text-decoration: none; }
-  h2 a:hover { color: var(--link); text-decoration: underline; text-decoration-thickness: 2px; }
-  .facts {
+  header {
     display: flex;
     flex-wrap: wrap;
-    gap: .15rem 1rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    color: var(--muted);
-    font-size: .9375rem;
+    align-items: baseline;
+    gap: 4px 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--orange);
   }
-  .note {
-    max-width: 62ch;
-    font-family: var(--reading);
-    font-size: 1.1875rem;
-    line-height: 1.55;
-  }
-  .note > :first-child { margin-top: 0; }
+  h1 { margin: 0; font-size: 16px; font-weight: 600; color: var(--orange); }
+  .here { color: var(--muted); }
+
+  #projects { display: flex; flex-direction: column; gap: 36px; padding-top: 28px; }
+  .status { margin: 28px 0 0; color: var(--muted); }
+  .status:empty { display: none; }
+
+  .project { display: grid; grid-template-columns: 2.5ch minmax(0, 1fr); gap: 0 1.5ch; }
+  .rank { color: var(--muted); }
+  h2 { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.5; overflow-wrap: anywhere; }
+  .facts { margin: 2px 0 0; font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
+  .note { margin-top: 12px; }
+  .note:empty { display: none; }
+  .note p { margin: 0 0 12px; }
   .note > :last-child { margin-bottom: 0; }
   .note img { max-width: 100%; height: auto; }
+  .note pre { overflow-x: auto; }
 
-  /* The project's lifespan, drawn on the shared timeline */
-  .track { position: relative; height: 1.125rem; border-bottom: 1px solid var(--line); }
-  .tick { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--line); }
-  .span {
-    position: absolute;
-    top: .25rem;
-    height: .5rem;
-    min-width: .5rem;
-    border-radius: .25rem;
-    background: var(--bar);
-    transform-origin: left center;
-    animation: draw .9s cubic-bezier(.2, .7, .2, 1) both;
-  }
-  .span::after {
-    content: "";
-    position: absolute;
-    right: -.0625rem;
-    top: -.125rem;
-    width: .75rem;
-    height: .75rem;
-    border-radius: 50%;
-    background: var(--latest);
-    border: 2px solid var(--paper);
-  }
-  @keyframes draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-  @media (prefers-reduced-motion: reduce) { .span { animation: none; } }
-
-  .message { max-width: 38em; padding: 2rem 0; }
-  .message p { margin: 0 0 .5rem; }
-
-  footer { padding: clamp(3rem, 7vw, 5rem) 0 2.5rem; color: var(--muted); }
-  footer p { margin: 0; }
-
-  @media (max-width: 44rem) {
-    .project-body { grid-template-columns: minmax(0, 1fr); }
-    .note { font-size: 1.125rem; }
-  }
+  .message p { margin: 0 0 8px; }
 </style>
 </head>
 <body>
@@ -170,10 +74,12 @@
   words you want to add. Copy this block inside the template below, once
   per project, and use the repo name exactly as it appears on GitHub:
 
-      <section data-repo="my-repo-name">
+      <section data-repo="my-repo-name" data-tagline="one line on what it does">
         <p>What the project does and why you made it.</p>
         <p>What you learned, or what you'd like to add next.</p>
       </section>
+
+  The tagline is optional. It appears after the repo name in the title.
 
   Projects you explain here appear first, in the order you write them.
   All the others follow, starting with the most recently updated.
@@ -185,27 +91,26 @@
 -->
 <template id="project-notes">
 
+  <section data-repo="k8s-ha-lab" data-tagline="a highly available Kubernetes cluster, from scratch">
+    <p>A highly available Kubernetes cluster I built from scratch with kubeadm on 5 KVM virtual machines: 3 control planes with stacked etcd behind a floating kube-vip IP, 2 workers, and Cilium replacing kube-proxy. The whole lab is code, so Vagrant and three Ansible playbooks can rebuild it from nothing.</p>
+    <p>I made it to practice what you only really learn on an HA cluster: losing a master, keeping etcd quorum, restoring from backups and upgrading without downtime. When I cut the power to the master holding the virtual IP, the API was unavailable for about 20 seconds and application traffic wasn't interrupted.</p>
+    <p>The best lesson came from the etcd restore: the first run stopped halfway with the API down on all masters, because the runbook relied on a tool that wasn't installed on the nodes. Test your recovery runbooks before you need them.</p>
+  </section>
+
 </template>
 
 <div class="page">
-  <header class="intro">
-    <!-- Edit your name and introduction here -->
-    <h1><span>Achref</span><span>Loussaief</span></h1>
-    <p class="lede">Projects I've built, with a few words on what each one does and why I made it.</p>
-    <p class="summary" id="summary" aria-live="polite">Loading projects from GitHub…</p>
+  <header>
+    <!-- Edit your name here -->
+    <h1>Achref Loussaief</h1>
+    <span class="here">projects</span>
+    <a href="https://github.com/Achref-LOUSSAIEF">github</a>
   </header>
 
   <main>
-    <div id="timeline" hidden>
-      <p class="axis-title">Each line runs from the day a project started to its last update, shown by the dot.</p>
-      <div class="axis" id="axis" aria-hidden="true"></div>
-    </div>
+    <p class="status" id="status" aria-live="polite">Loading projects from GitHub…</p>
     <div id="projects"></div>
   </main>
-
-  <footer>
-    <p>See all of my code on <a href="https://github.com/Achref-LOUSSAIEF">GitHub</a>.</p>
-  </footer>
 </div>
 
 <script>
@@ -214,7 +119,7 @@
   const CACHE_KEY = "repos:" + USERNAME;
   const CACHE_LIFETIME = 60 * 60 * 1000; // GitHub limits how often a visitor can ask, so reuse answers for an hour
 
-  const summary = document.getElementById("summary");
+  const status = document.getElementById("status");
   const list = document.getElementById("projects");
 
   function el(tag, props, ...children) {
@@ -224,7 +129,7 @@
   }
 
   function monthYear(date) {
-    return date.toLocaleDateString("en-GB", { month: "short", year: "numeric" });
+    return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
   }
 
   function readCache() {
@@ -254,7 +159,6 @@
           stars: r.stargazers_count,
           fork: r.fork,
           archived: r.archived,
-          created: r.created_at,
           pushed: r.pushed_at
         });
       }
@@ -287,84 +191,47 @@
     return /^https?:\/\//i.test(value || "");
   }
 
-  function renderProject(repo, note, range) {
-    const facts = el("ul", { className: "facts" });
-    const addFact = (...content) => facts.append(el("li", null, ...content));
-    if (repo.language) addFact(repo.language);
-    if (repo.stars > 0) addFact(repo.stars + (repo.stars === 1 ? " star" : " stars"));
-    if (repo.pushed) addFact("Updated " + monthYear(new Date(repo.pushed)));
-    if (repo.archived) addFact("Archived");
-    if (isWebAddress(repo.homepage)) addFact(el("a", { href: repo.homepage, textContent: "Open live site" }));
+  function renderProject(repo, note, position) {
+    const hasWords = note && note.textContent.trim();
+    const tagline = note && note.dataset.tagline ? note.dataset.tagline.trim() : "";
+    const title = tagline ? repo.name + ": " + tagline : repo.name;
+
+    // Facts are separated by " | ", and a link can be one of them
+    const facts = el("p", { className: "facts" });
+    const parts = [];
+    if (repo.pushed) parts.push("updated " + monthYear(new Date(repo.pushed)));
+    if (repo.language) parts.push(repo.language);
+    if (repo.stars > 0) parts.push(repo.stars + (repo.stars === 1 ? " star" : " stars"));
+    if (repo.archived) parts.push("archived");
+    parts.push("github.com/" + USERNAME);
+    if (isWebAddress(repo.homepage)) parts.push(el("a", { href: repo.homepage, textContent: "live site" }));
+    parts.forEach((part, i) => facts.append(i ? " | " : "", part));
 
     const words = el("div", { className: "note" });
-    if (note && note.textContent.trim()) words.append(...Array.from(note.childNodes, (n) => n.cloneNode(true)));
+    if (hasWords) words.append(...Array.from(note.childNodes, (n) => n.cloneNode(true)));
     else if (repo.description) words.append(el("p", { textContent: repo.description }));
 
-    const article = el("article", { className: "project" },
-      el("div", { className: "project-body" },
-        el("div", null,
-          el("h2", null, el("a", { href: repo.url, textContent: repo.name })),
-          facts
-        ),
+    return el("article", { className: "project" },
+      el("span", { className: "rank", textContent: position + "." }),
+      el("div", null,
+        el("h2", null, el("a", { href: repo.url, textContent: title })),
+        facts,
         words
       )
     );
-
-    if (range && repo.created && repo.pushed) {
-      const start = new Date(repo.created);
-      const end = new Date(repo.pushed);
-      const track = el("div", { className: "track", role: "img" });
-      track.setAttribute("aria-label", "Started " + monthYear(start) + ", last updated " + monthYear(end));
-      range.years.forEach((y) => {
-        const tick = el("div", { className: "tick" });
-        tick.style.left = y.left + "%";
-        track.append(tick);
-      });
-      const span = el("div", { className: "span" });
-      span.style.left = range.position(start) + "%";
-      span.style.width = Math.max(0, range.position(end) - range.position(start)) + "%";
-      track.append(span);
-      article.append(track);
-    }
-    return article;
-  }
-
-  function buildRange(repos) {
-    const starts = repos.map((r) => new Date(r.created).getTime());
-    const firstYear = new Date(Math.min(...starts)).getFullYear();
-    const from = new Date(firstYear, 0, 1).getTime();
-    const to = Date.now();
-    const position = (date) => Math.min(100, Math.max(0, ((date.getTime() - from) / (to - from)) * 100));
-    const years = [];
-    for (let y = firstYear; y <= new Date(to).getFullYear(); y++) {
-      years.push({ year: y, left: position(new Date(y, 0, 1)) });
-    }
-    return { years, position, firstYear };
-  }
-
-  function renderAxis(range) {
-    const axis = document.getElementById("axis");
-    const step = Math.ceil(range.years.length / 7);
-    range.years.forEach((y, i) => {
-      if (i % step !== 0 || y.left > 93) return;
-      const label = el("span", { textContent: y.year });
-      label.style.left = y.left + "%";
-      axis.append(label);
-    });
-    document.getElementById("timeline").hidden = false;
   }
 
   function showFailure(notes) {
-    summary.textContent = "";
-    const message = el("div", { className: "message" },
+    status.textContent = "";
+    list.append(el("div", { className: "message" },
       el("p", { textContent: "GitHub isn't sending the project list right now, usually because of too many requests in the last hour. Try again later, or browse the projects directly." }),
       el("p", null, el("a", { href: PROFILE_URL + "?tab=repositories", textContent: "See all projects on GitHub" }))
-    );
-    list.append(message);
-    notes.forEach((note, key) => {
+    ));
+    let position = 1;
+    notes.forEach((note) => {
       if (note.hasAttribute("data-hide")) return;
       const name = note.dataset.repo.trim();
-      list.append(renderProject({ name, url: PROFILE_URL + "/" + name }, note, null));
+      list.append(renderProject({ name, url: PROFILE_URL + "/" + name }, note, position++));
     });
   }
 
@@ -388,7 +255,7 @@
     });
 
     if (!visible.length) {
-      summary.textContent = "No public projects yet.";
+      status.textContent = "No public projects yet.";
       return;
     }
 
@@ -404,10 +271,8 @@
     };
     visible.sort((a, b) => rank(a) - rank(b) || new Date(b.pushed) - new Date(a.pushed));
 
-    const range = buildRange(visible);
-    summary.textContent = visible.length + (visible.length === 1 ? " public project" : " public projects") + " on GitHub since " + range.firstYear + ".";
-    renderAxis(range);
-    visible.forEach((repo) => list.append(renderProject(repo, notes.get(repo.name.toLowerCase()), range)));
+    status.textContent = "";
+    visible.forEach((repo, i) => list.append(renderProject(repo, notes.get(repo.name.toLowerCase()), i + 1)));
   }
 
   start();
