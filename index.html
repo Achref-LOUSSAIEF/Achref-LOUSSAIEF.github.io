@@ -9,60 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    color-scheme: dark;
-    --paper: #22211d;
-    --ink: #e6e3d6;
-    --muted: #aeab9a;
-    --orange: #ff9a52;
-    --orange-hover: #ffbd8c;
-  }
-
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: "IBM Plex Mono", Menlo, Consolas, monospace;
-    font-size: 14px;
-    line-height: 1.6;
-  }
-  a { color: var(--orange); }
-  a:hover { color: var(--orange-hover); }
-  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-
-  .page { max-width: 50rem; margin: 0 auto; padding: 28px 16px 40px; }
-
-  header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 4px 16px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid var(--orange);
-  }
-  h1 { margin: 0; font-size: 16px; font-weight: 600; color: var(--orange); }
-  .here { color: var(--muted); }
-
-  #projects { display: flex; flex-direction: column; gap: 36px; padding-top: 28px; }
-  .status { margin: 28px 0 0; color: var(--muted); }
-  .status:empty { display: none; }
-
-  .project { display: grid; grid-template-columns: 2.5ch minmax(0, 1fr); gap: 0 1.5ch; }
-  .rank { color: var(--muted); }
-  h2 { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.5; overflow-wrap: anywhere; }
-  .facts { margin: 2px 0 0; font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
-  .note { margin-top: 12px; }
-  .note:empty { display: none; }
-  .note p { margin: 0 0 12px; }
-  .note > :last-child { margin-bottom: 0; }
-  .note img { max-width: 100%; height: auto; }
-  .note pre { overflow-x: auto; }
-
-  .message p { margin: 0 0 8px; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -97,13 +44,39 @@
     <p>The best lesson came from the etcd restore: the first run stopped halfway with the API down on all masters, because the runbook relied on a tool that wasn't installed on the nodes. Test your recovery runbooks before you need them.</p>
   </section>
 
+  <section data-repo="homelab-network-stack" data-tagline="a self-hosted network infrastructure, fully containerized">
+    <p>My self-hosted network stack, running entirely in Docker and started with a few make commands: a WireGuard VPN, filtering DNS with AdGuard Home, a Traefik reverse proxy with automatic TLS, Prometheus and Grafana for monitoring, and Loki and Alloy for centralized logs.</p>
+    <p>I kept the attack surface small. Only two ports are exposed on the host, each service joins only the networks it needs, and no container touches the Docker socket directly: Traefik and Alloy go through a read-only proxy. Containers drop all capabilities by default, and the two that need root are documented exceptions.</p>
+    <p>On every push, GitHub Actions lints the configuration, starts the full stack on the runner and runs end-to-end smoke tests: every interface must respond over HTTPS, AdGuard must resolve names, all Prometheus targets must be up and Loki must receive logs.</p>
+  </section>
+
+  <section data-repo="iac-forge" data-tagline="describe an AWS app in YAML, validate it, generate the Terraform">
+    <p>A small Python tool, with PyYAML as its only dependency. You describe an AWS application in about 15 lines of YAML, and it checks the spec against 22 security and reliability rules before generating the Terraform: network, security groups, EC2, RDS, S3 and load balancer. It's a clean-room re-implementation of an internal IaC abstraction tool and its pre-deployment validator.</p>
+    <p>The validator is the point. Run as a CI gate, it stops a spec that opens SSH to the world or leaves a database unencrypted before it reaches terraform apply. Severity can depend on the environment, so a plain-HTTP listener is an error in prod and a warning in dev.</p>
+    <p>Every rule has its own test, and a test fails until any new rule gets one. The generated Terraform passes terraform validate in CI, but it hasn't been applied to a real AWS account yet.</p>
+  </section>
+
+  <section data-repo="cloud-resume-challenge" data-tagline="my resume as a serverless website on AWS">
+    <p>My implementation of the <a href="https://cloudresumechallenge.dev/docs/the-challenge/aws/">Cloud Resume Challenge</a>, a hands-on project covering static hosting, serverless APIs, infrastructure as code and CI/CD.</p>
+    <p>The resume is a static site on S3, served through CloudFront with HTTPS from ACM and a custom domain on Route 53. Its visitor counter calls an API Gateway endpoint backed by a Python Lambda function, which stores the count in DynamoDB. The infrastructure is defined in Terraform, and GitHub Actions handles the CI/CD.</p>
+  </section>
+
+  <!-- AZURE PROJECT: replace AZURE-REPO-NAME with the repo's exact name, then delete this comment's start and end lines so the section below becomes active. Start of block:
+  <section data-repo="AZURE-REPO-NAME" data-tagline="a self-managed Kubernetes cluster on Azure VMs">
+    <p>A self-managed Kubernetes cluster on Azure virtual machines, rather than a managed AKS service. Terraform provisions the infrastructure, cloud-init prepares a control plane and a worker on first boot, and a setup script bootstraps the cluster with kubeadm, using a fresh join token instead of a hardcoded secret.</p>
+    <p>Calico handles pod networking and network policy, and cloud-provider-azure lets Kubernetes manage Azure resources such as load balancers and route tables. The project was inspired by <a href="https://medium.com/@nabil.abdi/managed-identity-for-self-managed-kubernetes-cluster-in-azure-1f0511d6a527">this article on managed identity for self-managed clusters</a>.</p>
+    <p>It's built for learning and development. The README lists what to change before production, such as restricting SSH and API access and using Azure Managed Identity instead of client secrets.</p>
+  </section>
+  End of block -->
+
 </template>
 
 <div class="page">
   <header>
     <!-- Edit your name here -->
     <h1>Achref Loussaief</h1>
-    <span class="here">projects</span>
+    <span class="here" aria-current="page">projects</span>
+    <a href="about.html">about</a>
     <a href="https://github.com/Achref-LOUSSAIEF">github</a>
   </header>
 
