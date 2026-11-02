@@ -61,13 +61,11 @@
     <p>The resume is a static site on S3, served through CloudFront with HTTPS from ACM and a custom domain on Route 53. Its visitor counter calls an API Gateway endpoint backed by a Python Lambda function, which stores the count in DynamoDB. The infrastructure is defined in Terraform, and GitHub Actions handles the CI/CD.</p>
   </section>
 
-  <!-- AZURE PROJECT: replace AZURE-REPO-NAME with the repo's exact name, then delete this comment's start and end lines so the section below becomes active. Start of block:
-  <section data-repo="AZURE-REPO-NAME" data-tagline="a self-managed Kubernetes cluster on Azure VMs">
+  <section data-repo="Self_Managed_K8S_Azure" data-tagline="a self-managed Kubernetes cluster on Azure VMs">
     <p>A self-managed Kubernetes cluster on Azure virtual machines, rather than a managed AKS service. Terraform provisions the infrastructure, cloud-init prepares a control plane and a worker on first boot, and a setup script bootstraps the cluster with kubeadm, using a fresh join token instead of a hardcoded secret.</p>
     <p>Calico handles pod networking and network policy, and cloud-provider-azure lets Kubernetes manage Azure resources such as load balancers and route tables. The project was inspired by <a href="https://medium.com/@nabil.abdi/managed-identity-for-self-managed-kubernetes-cluster-in-azure-1f0511d6a527">this article on managed identity for self-managed clusters</a>.</p>
     <p>It's built for learning and development. The README lists what to change before production, such as restricting SSH and API access and using Azure Managed Identity instead of client secrets.</p>
   </section>
-  End of block -->
 
 </template>
 
