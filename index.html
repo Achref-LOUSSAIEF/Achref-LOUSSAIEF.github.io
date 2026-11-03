@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Achref Loussaief: projects</title>
 <meta name="description" content="Projects by Achref Loussaief, with notes on what each one does.">
-<meta name="theme-color" content="#22211d">
+<meta name="theme-color" content="#14181f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -44,6 +44,12 @@
     <p>The best lesson came from the etcd restore: the first run stopped halfway with the API down on all masters, because the runbook relied on a tool that wasn't installed on the nodes. Test your recovery runbooks before you need them.</p>
   </section>
 
+  <section data-repo="local-ai-stack" data-tagline="a private AI chat, deployed with Docker">
+    <p>A private AI chat that runs on my own machine. One command, make up, downloads a model and starts Ollama, Open WebUI and Traefik with Docker Compose.</p>
+    <p>Getting a chat on screen is the easy part, so I focused on what's around it. Ollama and Open WebUI sit on internal networks with no Internet access, and a separate container downloads the model, then exits. Ollama has no authentication of its own, so its port isn't published. make test logs in, asks the model a real question and checks that the isolation holds.</p>
+    <p>It runs on a laptop CPU, and the whole stack uses about 4.5 GiB of memory. The model also likes to invent things: when I said hello, it offered to manage my calendar, which this stack can't do.</p>
+  </section>
+
   <section data-repo="homelab-network-stack" data-tagline="a self-hosted network infrastructure, fully containerized">
     <p>My self-hosted network stack, running entirely in Docker and started with a few make commands: a WireGuard VPN, filtering DNS with AdGuard Home, a Traefik reverse proxy with automatic TLS, Prometheus and Grafana for monitoring, and Loki and Alloy for centralized logs.</p>
     <p>I kept the attack surface small. Only two ports are exposed on the host, each service joins only the networks it needs, and no container touches the Docker socket directly: Traefik and Alloy go through a read-only proxy. Containers drop all capabilities by default, and the two that need root are documented exceptions.</p>
@@ -75,7 +81,6 @@
     <h1>Achref Loussaief</h1>
     <span class="here" aria-current="page">projects</span>
     <a href="about.html">about</a>
-    <a href="https://github.com/Achref-LOUSSAIEF">github</a>
   </header>
 
   <main>

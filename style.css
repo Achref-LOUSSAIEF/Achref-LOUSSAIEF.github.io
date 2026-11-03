@@ -1,10 +1,10 @@
 :root {
   color-scheme: dark;
-  --paper: #22211d;
-  --ink: #e6e3d6;
-  --muted: #aeab9a;
-  --orange: #ff9a52;
-  --orange-hover: #ffbd8c;
+  --paper: #14181f;
+  --ink: #e7e9ee;
+  --muted: #a3acba;
+  --accent: #8ab4ff;
+  --accent-hover: #b9d2ff;
 }
 
 * { box-sizing: border-box; }
@@ -17,8 +17,8 @@ body {
   font-size: 14px;
   line-height: 1.6;
 }
-a { color: var(--orange); }
-a:hover { color: var(--orange-hover); }
+a { color: var(--accent); }
+a:hover { color: var(--accent-hover); }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 .page { max-width: 50rem; margin: 0 auto; padding: 28px 16px 40px; }
@@ -29,9 +29,9 @@ header {
   align-items: baseline;
   gap: 4px 16px;
   padding-bottom: 12px;
-  border-bottom: 2px solid var(--orange);
+  border-bottom: 2px solid var(--accent);
 }
-h1 { margin: 0; font-size: 16px; font-weight: 600; color: var(--orange); }
+h1 { margin: 0; font-size: 16px; font-weight: 600; color: var(--accent); }
 .here { color: var(--muted); }
 
 #projects { display: flex; flex-direction: column; gap: 36px; padding-top: 28px; }
@@ -52,7 +52,7 @@ h2 { margin: 0; font-size: 14px; font-weight: 600; line-height: 1.5; overflow-wr
 .message p { margin: 0 0 8px; }
 
 .about { padding-top: 28px; }
-.about h2 { color: var(--orange); margin: 28px 0 8px; }
+.about h2 { color: var(--accent); margin: 28px 0 8px; }
 .about h2:first-child { margin-top: 0; }
 .about p { margin: 0 0 12px; }
 .about ul { margin: 0; padding: 0; list-style: none; }
