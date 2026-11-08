@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>About: Achref Loussaief</title>
-<meta name="description" content="Achref Loussaief, a network engineer and Certified Kubernetes Administrator working with AWS and Kubernetes.">
+<title>Achref Loussaief: projects</title>
+<meta name="description" content="Projects by Achref Loussaief, with notes on what each one does.">
 <meta name="theme-color" content="#14181f">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,32 +12,284 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<template id="project-notes">
+
+  <section data-repo="k8s-ha-lab" data-tagline="a highly available Kubernetes cluster, from scratch">
+    <p>A highly available Kubernetes cluster I built from scratch with kubeadm on 5 KVM virtual machines: 3 control planes with stacked etcd behind a floating kube-vip IP, 2 workers, and Cilium replacing kube-proxy. The whole lab is code, so Vagrant and three Ansible playbooks can rebuild it from nothing.</p>
+    <p>I made it to practice what you only really learn on an HA cluster: losing a master, keeping etcd quorum, restoring from backups and upgrading without downtime. When I cut the power to the master holding the virtual IP, the API was unavailable for about 20 seconds and application traffic wasn't interrupted.</p>
+    <p>The best lesson came from the etcd restore: the first run stopped halfway with the API down on all masters, because the runbook relied on a tool that wasn't installed on the nodes. Test your recovery runbooks before you need them.</p>
+  </section>
+
+  <section data-repo="local-ai-stack" data-tagline="a private AI chat, deployed with Docker">
+    <p>A private AI chat that runs on my own machine. One command, make up, downloads a model and starts Ollama, Open WebUI and Traefik with Docker Compose.</p>
+    <p>Getting a chat on screen is the easy part, so I focused on what's around it. Ollama and Open WebUI sit on internal networks with no Internet access, and a separate container downloads the model, then exits. Ollama has no authentication of its own, so its port isn't published. make test logs in, asks the model a real question and checks that the isolation holds.</p>
+    <p>It runs on a laptop CPU, and the whole stack uses about 4.5 GiB of memory. The model also likes to invent things: when I said hello, it offered to manage my calendar, which this stack can't do.</p>
+  </section>
+
+  <section data-repo="homelab-network-stack" data-tagline="a self-hosted network infrastructure, fully containerized">
+    <p>My self-hosted network stack, running entirely in Docker and started with a few make commands: a WireGuard VPN, filtering DNS with AdGuard Home, a Traefik reverse proxy with automatic TLS, Prometheus and Grafana for monitoring, and Loki and Alloy for centralized logs.</p>
+    <p>I kept the attack surface small. Only two ports are exposed on the host, each service joins only the networks it needs, and no container touches the Docker socket directly: Traefik and Alloy go through a read-only proxy. Containers drop all capabilities by default, and the two that need root are documented exceptions.</p>
+    <p>On every push, GitHub Actions lints the configuration, starts the full stack on the runner and runs end-to-end smoke tests: every interface must respond over HTTPS, AdGuard must resolve names, all Prometheus targets must be up and Loki must receive logs.</p>
+  </section>
+
+  <section data-repo="iac-forge" data-tagline="describe an AWS app in YAML, validate it, generate the Terraform">
+    <p>A small Python tool, with PyYAML as its only dependency. You describe an AWS application in about 15 lines of YAML, and it checks the spec against 22 security and reliability rules before generating the Terraform: network, security groups, EC2, RDS, S3 and load balancer. It's a clean-room re-implementation of an internal IaC abstraction tool and its pre-deployment validator.</p>
+    <p>The validator is the point. Run as a CI gate, it stops a spec that opens SSH to the world or leaves a database unencrypted before it reaches terraform apply. Severity can depend on the environment, so a plain-HTTP listener is an error in prod and a warning in dev.</p>
+    <p>Every rule has its own test, and a test fails until any new rule gets one. The generated Terraform passes terraform validate in CI, but it hasn't been applied to a real AWS account yet.</p>
+  </section>
+
+  <section data-repo="cloud-resume-challenge" data-tagline="my resume as a serverless website on AWS">
+    <p>My implementation of the <a href="https://cloudresumechallenge.dev/docs/the-challenge/aws/">Cloud Resume Challenge</a>, a hands-on project covering static hosting, serverless APIs, infrastructure as code and CI/CD.</p>
+    <p>The resume is a static site on S3, served through CloudFront with HTTPS from ACM and a custom domain on Route 53. Its visitor counter calls an API Gateway endpoint backed by a Python Lambda function, which stores the count in DynamoDB. The infrastructure is defined in Terraform, and GitHub Actions handles the CI/CD.</p>
+  </section>
+
+  <section data-repo="Self_Managed_K8S_Azure" data-tagline="a self-managed Kubernetes cluster on Azure VMs">
+    <p>A self-managed Kubernetes cluster on Azure virtual machines, rather than a managed AKS service. Terraform provisions the infrastructure, cloud-init prepares a control plane and a worker on first boot, and a setup script bootstraps the cluster with kubeadm, using a fresh join token instead of a hardcoded secret.</p>
+    <p>Calico handles pod networking and network policy, and cloud-provider-azure lets Kubernetes manage Azure resources such as load balancers and route tables. The project was inspired by <a href="https://medium.com/@nabil.abdi/managed-identity-for-self-managed-kubernetes-cluster-in-azure-1f0511d6a527">this article on managed identity for self-managed clusters</a>.</p>
+    <p>It's built for learning and development. The README lists what to change before production, such as restricting SSH and API access and using Azure Managed Identity instead of client secrets.</p>
+  </section>
+
+</template>
+
 <div class="page">
   <header>
+    <!-- Edit your name here -->
     <h1>Achref Loussaief</h1>
-    <a href="./">projects</a>
-    <span class="here" aria-current="page">about</span>
+    <span class="here" aria-current="page">projects</span>
+    <a href="about.html">about</a>
   </header>
 
-  <main class="about">
-    <h2>About me</h2>
-    <p>Hi, I'm Achref, and I just graduated from college. I'm a network engineer, but I do a lot more than networks.</p>
-    <p>In my final year, I did an apprenticeship at a consulting company in Paris, and that's where I fell in love with AWS. The project I worked on there showed me how interesting AWS is, and how important. So I decided to learn it in more depth and build projects of my own, like my <a href="https://github.com/Achref-LOUSSAIEF/cloud-resume-challenge">Cloud Resume Challenge</a>.</p>
-    <p>Then came Kubernetes. I'm not usually a fan of group projects, but at college I found a great group of people and we built an amazing project on Kubernetes. The project itself doesn't matter much. What matters is that it introduced me to k8s, and from that moment, I couldn't stop thinking about how it worked and what it could do.</p>
-    <p>So I started learning again. My college gave me an amazing opportunity to take the CKA exam, and I was thrilled to be selected. When my apprenticeship ended, I dedicated two whole months to intense studying. I didn't just learn Kubernetes, I breathed it. And I did it: I'm officially a Certified Kubernetes Administrator.</p>
-
-    <h2>Right now</h2>
-    <p>Kubernetes pulled my attention away from AWS for a while. It was great, don't get me wrong, but I still love AWS, so I'm going back to my roots and hoping to pass the AWS Solutions Architect exam soon. I don't know how long it will take, because I'm also looking for a job, so I'm making the most of my time to do both.</p>
-    <p>This website is where I share <a href="./">projects I've built</a>, ideas, and the simple things I learn along the way.</p>
-
-    <h2>Contact</h2>
-    <p>Feel free to reach out.</p>
-    <ul>
-      <li><a href="https://github.com/Achref-LOUSSAIEF">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/achref-loussaief-4b9ab732a/">LinkedIn</a></li>
-      <li><a href="mailto:achref.loussaief@telecom-sudparis.eu">Email</a></li>
-    </ul>
+  <main>
+    <p class="status" id="status" aria-live="polite">Loading projects from GitHub…</p>
+    <div id="projects"></div>
   </main>
 </div>
+
+<script>
+  const USERNAME = "Achref-LOUSSAIEF";
+  const PROFILE_URL = "https://github.com/" + USERNAME;
+  const CACHE_KEY = "repos:" + USERNAME;
+  const CACHE_LIFETIME = 60 * 60 * 1000; // GitHub limits how often a visitor can ask, so reuse answers for an hour
+
+  const status = document.getElementById("status");
+  const list = document.getElementById("projects");
+
+  function el(tag, props, ...children) {
+    const node = Object.assign(document.createElement(tag), props || {});
+    node.append(...children);
+    return node;
+  }
+
+  function monthYear(date) {
+    return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+  }
+
+  function readCache() {
+    try { return JSON.parse(localStorage.getItem(CACHE_KEY)); } catch (e) { return null; }
+  }
+
+  function writeCache(repos) {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), repos })); } catch (e) { /* the page works without it */ }
+  }
+
+  async function fetchRepos() {
+    const repos = [];
+    for (let page = 1; ; page++) {
+      const response = await fetch(
+        "https://api.github.com/users/" + USERNAME + "/repos?per_page=100&sort=pushed&page=" + page,
+        { headers: { Accept: "application/vnd.github+json" } }
+      );
+      if (!response.ok) throw new Error("GitHub responded with " + response.status);
+      const batch = await response.json();
+      for (const r of batch) {
+        repos.push({
+          name: r.name,
+          description: r.description,
+          url: r.html_url,
+          homepage: r.homepage,
+          language: r.language,
+          stars: r.stargazers_count,
+          fork: r.fork,
+          archived: r.archived,
+          pushed: r.pushed_at
+        });
+      }
+      if (batch.length < 100) return repos;
+    }
+  }
+
+  async function loadRepos() {
+    const cached = readCache();
+    if (cached && Date.now() - cached.savedAt < CACHE_LIFETIME) return cached.repos;
+    try {
+      const repos = await fetchRepos();
+      writeCache(repos);
+      return repos;
+    } catch (error) {
+      if (cached) return cached.repos;
+      throw error;
+    }
+  }
+
+  function readNotes() {
+    const notes = new Map();
+    document.getElementById("project-notes").content.querySelectorAll("[data-repo]").forEach((section) => {
+      notes.set(section.dataset.repo.trim().toLowerCase(), section);
+    });
+    return notes;
+  }
+
+  function isWebAddress(value) {
+    return /^https?:\/\//i.test(value || "");
+  }
+
+  function renderProject(repo, note, position) {
+    const hasWords = note && note.textContent.trim();
+    const tagline = note && note.dataset.tagline ? note.dataset.tagline.trim() : "";
+    const title = tagline ? repo.name + ": " + tagline : repo.name;
+
+    // Facts are separated by " | ", and a link can be one of them
+    const facts = el("p", { className: "facts" });
+    const parts = [];
+    if (repo.pushed) parts.push("updated " + monthYear(new Date(repo.pushed)));
+    if (repo.language) parts.push(repo.language);
+    if (repo.stars > 0) parts.push(repo.stars + (repo.stars === 1 ? " star" : " stars"));
+    if (repo.archived) parts.push("archived");
+    parts.push("github.com/" + USERNAME);
+    if (isWebAddress(repo.homepage)) parts.push(el("a", { href: repo.homepage, textContent: "live site" }));
+    parts.forEach((part, i) => facts.append(i ? " | " : "", part));
+
+    const words = el("div", { className: "note" });
+    if (hasWords) words.append(...Array.from(note.childNodes, (n) => n.cloneNode(true)));
+    else if (repo.description) words.append(el("p", { textContent: repo.description }));
+
+    return el("article", { className: "project" },
+      el("span", { className: "rank", textContent: position + "." }),
+      el("div", null,
+        el("h2", null, el("a", { href: repo.url, textContent: title })),
+        facts,
+        words
+      )
+    );
+  }
+
+  function showFailure(notes) {
+    status.textContent = "";
+    list.append(el("div", { className: "message" },
+      el("p", { textContent: "GitHub isn't sending the project list right now, usually because of too many requests in the last hour. Try again later, or browse the projects directly." }),
+      el("p", null, el("a", { href: PROFILE_URL + "?tab=repositories", textContent: "See all projects on GitHub" }))
+    ));
+    let position = 1;
+    notes.forEach((note) => {
+      if (note.hasAttribute("data-hide")) return;
+      const name = note.dataset.repo.trim();
+      list.append(renderProject({ name, url: PROFILE_URL + "/" + name }, note, position++));
+    });
+  }
+
+  function renderRepos(repos, notes) {
+    const ownSite = (USERNAME + ".github.io").toLowerCase();
+
+    const visible = repos.filter((r) => {
+      const key = r.name.toLowerCase();
+      if (r.fork || key === ownSite) return false;
+
+      const note = notes.get(key);
+      return !(note && note.hasAttribute("data-hide"));
+    });
+
+    const order = Array.from(notes.keys());
+
+    const rank = (r) => {
+      const i = order.indexOf(r.name.toLowerCase());
+      return i === -1 ? order.length : i;
+    };
+
+    visible.sort((a, b) =>
+      rank(a) - rank(b) ||
+      new Date(b.pushed) - new Date(a.pushed)
+    );
+
+    list.replaceChildren();
+
+    if (!visible.length) {
+      status.textContent = "No public projects yet.";
+      return;
+    }
+
+    status.textContent = "";
+
+    visible.forEach((repo, i) => {
+      list.append(
+        renderProject(
+          repo,
+          notes.get(repo.name.toLowerCase()),
+          i + 1
+        )
+      );
+    });
+  }
+
+  function renderFeaturedProjects(notes) {
+    list.replaceChildren();
+    status.textContent = "";
+
+    let position = 1;
+
+    notes.forEach((note) => {
+      if (note.hasAttribute("data-hide")) return;
+
+      const name = note.dataset.repo.trim();
+
+      list.append(
+        renderProject({
+          name,
+          url: PROFILE_URL + "/" + name
+        }, note, position++)
+      );
+    });
+  }
+
+  async function start() {
+    const notes = readNotes();
+    const cached = readCache();
+
+    // Show cached projects immediately, even if expired.
+    if (cached && Array.isArray(cached.repos)) {
+      renderRepos(cached.repos, notes);
+    } else {
+      // First-time visitor: show documented projects immediately.
+      renderFeaturedProjects(notes);
+    }
+
+    // Don't make another request if the cache is still fresh.
+    if (
+      cached &&
+      Date.now() - cached.savedAt < CACHE_LIFETIME
+    ) {
+      return;
+    }
+
+    // Refresh GitHub data in the background.
+    try {
+      const repos = await fetchRepos();
+
+      writeCache(repos);
+      renderRepos(repos, notes);
+
+    } catch (error) {
+      console.warn("GitHub refresh failed:", error);
+
+      // Keep whatever is already displayed.
+      if (!cached) {
+        status.textContent =
+          "Showing featured projects. GitHub is temporarily unavailable.";
+      }
+    }
+  }
+
+  start();
+</script>
 </body>
 </html>
